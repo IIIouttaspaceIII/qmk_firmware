@@ -1,5 +1,5 @@
 /*
-Copyright 2012 Jun Wako <wakojun@gmail.com>
+Copyright 2021 ianklug
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -20,15 +20,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "config_common.h"
 
 /* USB Device descriptor parameter */
-#define VENDOR_ID       0xFEED
-#define PRODUCT_ID      0x6066
-#define DEVICE_VER      0x0001
-#define MANUFACTURER    Han Chen
-#define PRODUCT         AMJ60
+#define VENDOR_ID    0x4B4C // "KL" = klug
+#define PRODUCT_ID   0x4742 // "GB" = grooveboard
+#define DEVICE_VER   0x0001
+#define MANUFACTURER ianklug
+#define PRODUCT      grooveboard
 
 /* key matrix size */
-#define MATRIX_ROWS 5
-#define MATRIX_COLS 14
+#define MATRIX_ROWS 1
+#define MATRIX_COLS 4
 
 /*
  * Keyboard Matrix Assignments
@@ -40,30 +40,41 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *                  ROW2COL = ROW = Anode (+), COL = Cathode (-, marked on diode)
  *
  */
-#define MATRIX_ROW_PINS { F7, F6, F5, F4, D5 }
-#define MATRIX_COL_PINS { F1, F0, E6, C7, C6, B0, D4, B1, B7, B5, B4, D7, D6, B3 }
+//#define MATRIX_ROW_PINS { D0, D5 }
+//#define MATRIX_COL_PINS { F1, F0, B0 }
+#define DIRECT_PINS { \
+    { F7, F6, D1, D2 } \
+}
 #define UNUSED_PINS
 
 /* COL2ROW, ROW2COL */
-#define DIODE_DIRECTION COL2ROW
+//#define DIODE_DIRECTION COL2ROW
 
-#define LED_CAPS_LOCK_PIN B2
-#define LED_PIN_ON_STATE 0
+/*
+ * Split Keyboard specific options, make sure you have 'SPLIT_KEYBOARD = yes' in your rules.mk, and define SOFT_SERIAL_PIN.
+ */
+//#define SOFT_SERIAL_PIN D0  // or D1, D2, D3, E6
 
-#define BACKLIGHT_PIN B6
-#define BACKLIGHT_LEVELS 4
-#define BACKLIGHT_BREATHING
+//#define LED_NUM_LOCK_PIN B0
+//#define LED_CAPS_LOCK_PIN B1
+//#define LED_SCROLL_LOCK_PIN B2
+//#define LED_COMPOSE_PIN B3
+//#define LED_KANA_PIN B4
 
-#define RGB_DI_PIN E2
-#ifdef RGB_DI_PIN
-#    define RGBLED_NUM 8
-#    define RGBLIGHT_HUE_STEP 10
-#    define RGBLIGHT_SAT_STEP 17
-#    define RGBLIGHT_VAL_STEP 17
+//#define BACKLIGHT_PIN B7
+//#define BACKLIGHT_LEVELS 3
+//#define BACKLIGHT_BREATHING
+
+//#define RGB_DI_PIN E2
+//#ifdef RGB_DI_PIN
+//#    define RGBLED_NUM 16
+//#    define RGBLIGHT_HUE_STEP 8
+//#    define RGBLIGHT_SAT_STEP 8
+//#    define RGBLIGHT_VAL_STEP 8
 //#    define RGBLIGHT_LIMIT_VAL 255 /* The maximum brightness level */
 //#    define RGBLIGHT_SLEEP  /* If defined, the RGB lighting will be switched off when the host goes to sleep */
 /*== all animations enable ==*/
-#    define RGBLIGHT_ANIMATIONS
+//#    define RGBLIGHT_ANIMATIONS
 /*== or choose animations ==*/
 //#    define RGBLIGHT_EFFECT_BREATHING
 //#    define RGBLIGHT_EFFECT_RAINBOW_MOOD
@@ -80,7 +91,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /*==== use exp() and sin() ====*/
 //#    define RGBLIGHT_EFFECT_BREATHE_CENTER 1.85  // 1 to 2.7
 //#    define RGBLIGHT_EFFECT_BREATHE_MAX    255   // 0 to 255
-#endif
+//#endif
 
 /* Debounce reduces chatter (unintended double-presses) - set 0 if debouncing is not needed */
 #define DEBOUNCE 5
@@ -92,6 +103,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define LOCKING_SUPPORT_ENABLE
 /* Locking resynchronize hack */
 #define LOCKING_RESYNC_ENABLE
+
+/* If defined, GRAVE_ESC will always act as ESC when CTRL is held.
+ * This is useful for the Windows task manager shortcut (ctrl+shift+esc).
+ */
+//#define GRAVE_ESC_CTRL_OVERRIDE
+
+/*
+ * Force NKRO
+ *
+ * Force NKRO (nKey Rollover) to be enabled by default, regardless of the saved
+ * state in the bootmagic EEPROM settings. (Note that NKRO must be enabled in the
+ * makefile for this to work.)
+ *
+ * If forced on, NKRO can be disabled via magic key (default = LShift+RShift+N)
+ * until the next keyboard reset.
+ *
+ * NKRO may prevent your keystrokes from being detected in the BIOS, but it is
+ * fully operational during normal computer usage.
+ *
+ * For a less heavy-handed approach, enable NKRO via magic key (LShift+RShift+N)
+ * or via bootmagic (hold SPACE+N while plugging in the keyboard). Once set by
+ * bootmagic, NKRO mode will always be enabled until it is toggled again during a
+ * power-up.
+ *
+ */
+//#define FORCE_NKRO
 
 /*
  * Feature disable options
@@ -116,3 +153,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* Bootmagic Lite key configuration */
 //#define BOOTMAGIC_LITE_ROW 0
 //#define BOOTMAGIC_LITE_COLUMN 0
+
+#define USB_POLLING_INTERVAL_MS 1
+#define QMK_KEYS_PER_SCAN 4
